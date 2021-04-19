@@ -23,6 +23,7 @@ const CreateUserComponent = () => {
              .catch(err => {
                 console.log(err);
             });
+        window.location = "/createExercise";
     }
 
     return(
