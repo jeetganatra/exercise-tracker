@@ -14,16 +14,15 @@ const CreateUserComponent = () => {
         const newAddedUser = {
             username:userName
         }
-        // axios.post("http://localhost:5000/user/add",newAddedUser)
-        //      .then(()=>{
-        //          //set ALERT to true later here
-        //          setUserName("");
-        //          console.log("new user added");
-        //      })
-        //      .catch(err => {
-        //         console.log(err);
-        //     });
-        setUserName("");
+        axios.post("http://localhost:5000/users/add",newAddedUser)
+             .then(()=>{
+                 //set ALERT to true later here
+                 setUserName("");
+                 console.log("new user added");
+             })
+             .catch(err => {
+                console.log(err);
+            });
     }
 
     return(
