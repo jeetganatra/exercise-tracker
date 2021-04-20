@@ -5,8 +5,12 @@ import TableField from "./TableFieldComponent"
 
 const ExerciseListComponent = () => {
     const [exerciseLog,setExerciseLog] = React.useState([]);
+    const [alert,setAlert] = React.useState(true);
 
     React.useEffect(()=>{
+        if(!alert){
+           return;
+        }
         axios.get("http://localhost:5000/exercises/")
             .then((res)=>{
                 setExerciseLog(res.data);
@@ -14,7 +18,31 @@ const ExerciseListComponent = () => {
             .catch(err => {
                 console.log(err);
             })
-    },[])
+    },[alert])
+
+    React.useEffect(()=>{
+        if(alert){
+            setAlert(false);
+        }
+    },[alert])
+
+    const deleteUserExercise = (id,userId) => {
+        axios.delete("http://localhost:5000/exercises/"+id)
+            .then(()=>{
+                 setAlert(true);
+                 console.log("deleted");
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        axios.delete("http://localhost:5000/users/" + userId)
+            .then(() => {
+                console.log("user deleted");
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     return(
         <div>
@@ -34,7 +62,7 @@ const ExerciseListComponent = () => {
                         {
                             exerciseLog.map((item,index)=>{
                                 return(
-                                    <TableField username={item.username} description={item.description} duration={item.duration} serial={index} date={item.date} />
+                                    <TableField id={item._id} username={item.username} userId={item.userId} description={item.description} duration={item.duration} serial={index} date={item.date} deleteUser={deleteUserExercise} />
                                 )
                             })
                         }

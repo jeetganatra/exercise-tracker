@@ -3,26 +3,14 @@ import React from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
-const CreateExerciseComponent = () => {
+const UpdateExerciseComponent = (props) => {
+    //console.log(props);
     const [exerciseLog,setExerciseLog] = React.useState({
-        username:"please select from below",
+        username:props.location.userProps.username,
         description:"",
         duration:0,
-        date: new Date(),
-        userId:""
+        date: new Date()
     })
-
-    const [users,setUsers] = React.useState([])
-
-    React.useEffect(()=>{
-        axios.get("http://localhost:5000/users/")
-            .then((res)=>{
-                setUsers(res.data)
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    },[])
 
     const handleOnChange = (event) => {
         const {name,value} = event.target;
@@ -30,17 +18,6 @@ const CreateExerciseComponent = () => {
             return{
                 ...prevValue,
                 [name] : value
-            }
-        })
-    }
-
-    const handleOnChangeUsername = (event) => {
-        console.log(event.target.selectedOptions[0].id);
-        setExerciseLog((prevValue)=>{
-            return{
-                ...prevValue,
-                username:event.target.value,
-                userId:event.target.selectedOptions[0].id
             }
         })
     }
@@ -61,10 +38,10 @@ const CreateExerciseComponent = () => {
             username:exerciseLog.username,
             description:exerciseLog.description,
             duration:exerciseLog.duration,
-            date:exerciseLog.date,
-            userId:exerciseLog.userId
+            date:exerciseLog.date
         }
-        axios.post("http://localhost:5000/exercises/add",exercise)
+        console.log(exercise);
+        axios.patch("http://localhost:5000/exercises/update/"+props.match.params.id,exercise)
              .then((res)=>console.log(res.data))
              .catch(err => {
                 console.log(err);
@@ -79,15 +56,8 @@ const CreateExerciseComponent = () => {
             <form onSubmit={handleOnSubmit}>
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <select class="form-control" required name="username" onChange={handleOnChangeUsername}>
-                        <option selected>Please select a user from below:</option>
-                        {
-                            users.map(user => {
-                                return (
-                                    <option id={user._id}>{user.username}</option>
-                                )
-                            })
-                        }
+                    <select class="form-control" required name="username" onChange={handleOnChange}>               
+                        <option value={exerciseLog.username}>{exerciseLog.username}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -110,4 +80,4 @@ const CreateExerciseComponent = () => {
     )
 }
 
-export default CreateExerciseComponent;
+export default UpdateExerciseComponent;
