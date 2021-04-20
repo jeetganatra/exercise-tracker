@@ -30,7 +30,7 @@ const ExerciseListComponent = () => {
         axios.delete("http://localhost:5000/exercises/"+id)
             .then(()=>{
                  setAlert(true);
-                 console.log("deleted");
+                 //console.log("deleted");
             })
             .catch(err => {
                 console.log(err);

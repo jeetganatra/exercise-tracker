@@ -84,7 +84,7 @@ const CreateExerciseComponent = () => {
                         {
                             users.map(user => {
                                 return (
-                                    <option id={user._id}>{user.username}</option>
+                                    <option value={user.username} id={user._id}>{user.username}</option>
                                 )
                             })
                         }

@@ -4,12 +4,12 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
 const UpdateExerciseComponent = (props) => {
-    //console.log(props);
+    //console.log(props.location.userProps);
     const [exerciseLog,setExerciseLog] = React.useState({
         username:props.location.userProps.username,
-        description:"",
-        duration:0,
-        date: new Date()
+        description:props.location.userProps.description,
+        duration:props.location.userProps.duration,
+        date:new Date()
     })
 
     const handleOnChange = (event) => {
